@@ -1,15 +1,16 @@
-import React from 'react';
+import React from "react";
 
-const PostImage = ({url ,alt}) => {
-    return (
-        <div>
-             <img
-            src={url}
-            className="w-full h-full object-cover rounded-lg"
-            alt={alt}
-          />
-        </div>
-    );
+const PostImage = ({ url, alt ,className,Children}) => {
+  return (
+    <div>
+      <img
+        src={url}
+        className={`w-full h-full object-cover rounded-lg ${className}`}
+        alt={alt}
+      />
+      {Children}
+    </div>
+  );
 };
 
 export default PostImage;

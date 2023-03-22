@@ -1,8 +1,7 @@
 import React, { Fragment } from "react";
 import { useController } from "react-hook-form";
-import IconEyseOpen from "../icons/IconEyseOpen";
 
-const Input = ({ name = "", type = "text", children, control, ...props }) => {
+const Input = ({ name = "", type = "text", children ,className ="bg-gray-200 w-full p-4 rounded-lg border outline-none focus:border-blue-500 focus:bg-slate-100 transition-all mt-3", control, ...props }) => {
   const { field } = useController({
     control,
     name,
@@ -13,7 +12,7 @@ const Input = ({ name = "", type = "text", children, control, ...props }) => {
       <input
         type={type}
         id={name}
-        className="bg-gray-200 w-full p-4 rounded-lg border outline-none focus:border-blue-500 focus:bg-slate-100 transition-all mt-3"
+        className={className}
         {...field}
         {...props}
       />

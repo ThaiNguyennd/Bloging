@@ -3,8 +3,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 // ${disabled ?"opacity-50 pointer-events-none":""}
 const Button = ({
-  className = `px-9  py-3 text-center bg-primary  rounded-xl mx-auto font-semibold isSubmiting ? "opacity-50 pointer-events-none" : ""
-  }`,
+  isSubmiting,
+  className = `px-9  py-3 text-center bg-primary rounded-xl mx-auto font-semibold ${isSubmiting ? "opacity-50 pointer-events-none" : "" } `,
   to,
   type = "button",
   children,
@@ -14,14 +14,14 @@ const Button = ({
   if (to !== "" && typeof to === "string") {
     return (
       <NavLink to={to}>
-         <button className={className} type="type"  onClick={onClick} {...props}>
-      {children}
-    </button>
+        <button className={className} type="type" onClick={onClick} {...props}>
+          {children}
+        </button>
       </NavLink>
-    )
+    );
   }
   return (
-    <button className={className} type="type"  onClick={onClick} {...props}>
+    <button className={className} type="type" onClick={onClick} {...props}>
       {children}
     </button>
   );

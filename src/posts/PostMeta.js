@@ -1,12 +1,19 @@
 import React from "react";
 
-const PostMeta = ({ date='mar 23',author=" thai" ,className }) => {
+const PostMeta = ({
+  to = "",
+  className = "",
+  authorName = "thainguyen",
+  date = "13 mar",
+}) => {
   return (
     <div>
-      <div className="flex gap-7 font-light text-sm align-middle">
-        <span className={className}>{date}</span>
+      <div
+        className={`${className} font-semibold leading-7 text-3xl mr-3 mt-5 mb-[10px] flex items-center  text-white`}
+      >
+        <span className="text-sm">{date}</span>
         <svg
-          className="align-middle mt-2"
+          className="mx-3"
           width="6"
           height="6"
           viewBox="0 0 6 6"
@@ -15,7 +22,7 @@ const PostMeta = ({ date='mar 23',author=" thai" ,className }) => {
         >
           <circle cx="3" cy="3" r="3" fill="#B1B5C3" />
         </svg>
-        <span className={className}>{author}</span>
+        <span className="text-sm">{authorName}</span>
       </div>
     </div>
   );

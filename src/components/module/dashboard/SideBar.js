@@ -108,7 +108,7 @@ const SideBar = () => {
     },
   ];
   return (
-    <div className="flex items-center flex-col gap-20">
+    <div className="flex items-center flex-col gap-20 bg-gray-300 rounded-lg w-[25%] shadow-lg mt-5">
       {sidebarLinks.map((link) => {
         if (link.onClick)
           return (
@@ -124,14 +124,13 @@ const SideBar = () => {
         return (
           <NavLink
             to={link.url}
-            className={(isActive) =>
-              isActive
-                ? "flex items-start justify-start mb-5 mt-5 gap-7 text-2xl "
-                : "flex items-start justify-start mb-5 mt-5 gap-7 text-2xl"
-            }
+            className={`flex text-2xl gap-5 cursor-pointer mt-5   `}
+             //  ${({ isActive } ) =>(isActive
+            //     ? "bg-primary text-green-400 "
+            //     : " ")}
             key={link.title}
           >
-            <span className="menu-icon">{link.icon}</span>
+            <span className="menu-icon mr-5 items-start">{link.icon}</span>
             <span className="menu-text">{link.title}</span>
           </NavLink>
         );

@@ -10,8 +10,9 @@ import * as yup from "yup";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase/firebase-config";
 import { NavLink, useNavigate } from "react-router-dom";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import Logo from "./Logo";
+import slugify from "slugify";
 const SignUpPage = () => {
   const schema = yup
     .object()
@@ -48,12 +49,18 @@ const SignUpPage = () => {
     await updateProfile(auth.currentUser, {
       displayName: values.fullName,
     });
-    const colRel = collection(db, "users");
-    addDoc(colRel, {
+    await setDoc(doc(db, "users", auth.currentUser.uid), {
       fullName: values.fullName,
       email: values.email,
       password: values.password,
-    });
+     userName :slugify(values.fullName ,{lower: true})
+    })
+    // const colRel = collection(db, "users");
+    // addDoc(colRel, {
+    //   fullName: values.fullName,
+    //   email: values.email,
+    //   password: values.password,
+    // });
     toast.success("Register successfully!!!");
     navigate("/");
   };

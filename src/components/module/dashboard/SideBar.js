@@ -1,9 +1,35 @@
 import React from "react";
-import { signOut } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import { auth } from "../../../firebase/firebase-config";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const SideBar = () => {
+  const navigate = useNavigate();
+  const handleSignOut = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "you want to sign out!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const auth = getAuth();
+        signOut(auth)
+          .then(() => {
+            console.log("succes");
+            navigate("/");
+          })
+          .catch((error) => {
+            console.log(error.messeage);
+          });
+        Swal.fire("SignOuted", "you have successfully logged out", "success");
+      }
+    });
+  };
   const sidebarLinks = [
     {
       title: "Dashboard",
@@ -104,30 +130,29 @@ const SideBar = () => {
           />
         </svg>
       ),
-      onClick: () => signOut(auth),
+      onClick: () => handleSignOut(),
     },
   ];
   return (
-    <div className="flex items-center flex-col gap-20 bg-gray-300 rounded-lg w-[25%] shadow-lg mt-5">
+    <div className="flex items-center flex-col gap-20   bg-gray-300 rounded-lg w-[25%] h-[75%] shadow-lg mt-5">
       {sidebarLinks.map((link) => {
-        if (link.onClick)
+        if (link.onClick) {
           return (
             <div
-              onClick={link.onClick}
+              onClick={link?.onClick}
               key={link.title}
-              className="mb-5 flex text-2xl gap-5 cursor-pointer"
+              className="mb-5 flex text-2xl gap-5 cursor-pointer w-full font-bold ml-20"
             >
               <span>{link.icon}</span>
               <span>{link.title}</span>
             </div>
           );
+        }
         return (
           <NavLink
             to={link.url}
-            className={`flex text-2xl gap-5 cursor-pointer mt-5   `}
-             //  ${({ isActive } ) =>(isActive
-            //     ? "bg-primary text-green-400 "
-            //     : " ")}
+            className={`flex text-2xl gap-5 cursor-pointer mt-5 w-full ml-20 font-semibold  
+              ${({ isActive }) => (isActive ? "bg-primary" : "")}`}
             key={link.title}
           >
             <span className="menu-icon mr-5 items-start">{link.icon}</span>

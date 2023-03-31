@@ -1,5 +1,9 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import CategoryAddNew from "./components/category/CategoryAddNew";
+import CategoryManage from "./components/category/CategoryManage";
+import CategoryUpdate from "./components/category/CategoryUpdate";
+import UserManage from "./components/users/UserManage";
 import { AuthProvider } from "./contexts/Auth-context";
 import DashBoard from "./pages/DashBoard";
 import DetailPage from "./pages/DetailPage";
@@ -22,6 +26,10 @@ function App() {
           <Route path="/detail" element={<DetailPage></DetailPage>}></Route>
           <Route path="/manage/posts" element={<PostPage></PostPage>}></Route>
           <Route path="/manage/add_post" element={<AddPost></AddPost>}></Route>
+          <Route path="/manage/category" element={<CategoryManage></CategoryManage>}></Route>
+          <Route path="/manage/user" element={<UserManage></UserManage>}></Route>
+          <Route path="/manage/update_category" element={<CategoryUpdate></CategoryUpdate>}></Route>
+          <Route path="/manage/category_addNew" element={<CategoryAddNew></CategoryAddNew>}></Route>
           <Route path="/*" element={<PageNotFound></PageNotFound>}></Route>
         </Routes>
       </AuthProvider>

@@ -3,11 +3,11 @@ import React from "react";
 const Lable = ({
   htmlFor = "",
   children,
-  className = "text-semibold text-xl mb-4 cursor-pointer",
+  className = "",
   ...props
 }) => {
   return (
-    <label htmlFor={htmlFor} className={className} {...props}>
+    <label htmlFor={htmlFor} className={`${className} font-semibold  text-xl mb-2 cursor-pointer `} {...props}>
       {" "}
       {children}
     </label>

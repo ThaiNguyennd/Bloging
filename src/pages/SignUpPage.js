@@ -10,9 +10,10 @@ import * as yup from "yup";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase/firebase-config";
 import { NavLink, useNavigate } from "react-router-dom";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import Logo from "./Logo";
 import slugify from "slugify";
+import { roleStatus, usserStatus } from "../components/untils/Constant";
 const SignUpPage = () => {
   const schema = yup
     .object()
@@ -41,28 +42,24 @@ const SignUpPage = () => {
   const navigate = useNavigate();
   const handleSignUp = async (values) => {
     if (!isValid) return;
-    const user = await createUserWithEmailAndPassword(
-      auth,
-      values.email,
-      values.password
-    );
+    await createUserWithEmailAndPassword(auth, values.email, values.password);
     await updateProfile(auth.currentUser, {
       displayName: values.fullName,
+      photoURL: "/user.png",
     });
     await setDoc(doc(db, "users", auth.currentUser.uid), {
       fullName: values.fullName,
       email: values.email,
       password: values.password,
-     userName :slugify(values.fullName ,{lower: true})
-    })
-    // const colRel = collection(db, "users");
-    // addDoc(colRel, {
-    //   fullName: values.fullName,
-    //   email: values.email,
-    //   password: values.password,
-    // });
+      userName: slugify(values.fullName, { lower: true }),
+      avatar: "/user.png",
+      status: usserStatus.ACTIVE,
+      role: roleStatus.USER,
+      createAt: serverTimestamp(),
+    });
+
     toast.success("Register successfully!!!");
-    navigate("/");
+    navigate("/sign-in");
   };
   const [togglePassword, setTogglePassword] = useState(false);
   return (
@@ -133,7 +130,7 @@ const SignUpPage = () => {
         <button
           type="submit"
           className={`px-9  py-3 text-center bg-primary mt-8 rounded-xl mx-auto font-semibold ${
-            isSubmitting ? "opacity-50 pointer-events-none" : ""
+            isSubmitting ? "opacity-50 pointer-events-none w-[200px]" : ""
           }`}
           disabled={isSubmitting}
         >

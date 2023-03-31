@@ -59,7 +59,7 @@ const PostItem = ({ data }) => {
           ></PostMeta>
         </div>
         <div className=" p-3 mt-5 ml-3 w-full ">
-          <PostTitle>{data.title}</PostTitle>
+          <PostTitle className="text-white">{data.title}</PostTitle>
         </div>
       </div>
     </div>

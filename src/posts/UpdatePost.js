@@ -1,114 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import slugify from "slugify";
-import Button from "../components/button/Button";
-import Radio from "../components/checkbox/Radio";
-import Field from "../components/field/Field";
-import FieldCheckboxes from "../components/field/FieldCheckboxes";
-import Input from "../components/input/Input";
+import React, { useState } from "react";
 import HeaderDashboard from "../components/module/dashboard/HeaderDashboard";
 import SideBar from "../components/module/dashboard/SideBar";
+import { useForm } from "react-hook-form";
+import Field from "../components/field/Field";
+import Input from "../components/input/Input";
+import FieldCheckboxes from "../components/field/FieldCheckboxes";
+import Radio from "../components/checkbox/Radio";
 import { postStatus } from "../components/untils/Constant";
-import ImageUpload from "./ImageUpload";
-import useFirebaseImage from "../hooks/useFirebaseImage";
 import Toggle from "../components/toggle/Toggle";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  serverTimestamp,
-  where,
-} from "firebase/firestore";
-import { db } from "../firebase/firebase-config";
 import { Dropdown } from "../components/dropdown";
-import { useAuth } from "../contexts/Auth-context";
-import { toast } from "react-toastify";
+import ImageUpload from "./ImageUpload";
+import Button from "../components/button/Button";
+import useFirebaseImage from "../hooks/useFirebaseImage";
+import { useSearchParams } from "react-router-dom";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase/firebase-config";
 
-const AddPost = () => {
-  const { userInfo } = useAuth();
-  const { control, watch, handleSubmit, setValue, getValues, reset } = useForm({
+const UpdatePost = () => {
+  const { control, setValue, getValues, handleSubmit, watch } = useForm({
     mode: "onChange",
-    defaultValues: {
-      title: "",
-      slug: "",
-      status: 2,
-      hot: false,
-      image: "",
-      categoryId: "",
-      user: {},
-    },
   });
+  const [params] = useSearchParams();
+  const postId = params.get("id");
+  const [content, setContent] = useState("");
+  const imageUrl = getValues("image");
+  const imageName = getValues("image_name");
+  const { image, setImage, progress, UploadFile, handleDeleteImage } =
+    useFirebaseImage(setValue, getValues, imageName, deletePostImage);
   const watchStatus = watch("status");
   const watchHot = watch("hot");
   const [categories, setCategories] = useState();
   const [SelectCategory, setSelectCategory] = useState();
-  useEffect(() => {
-    async function fetchUserData() {
-      if (!userInfo.email) return;
-      const q = query(
-        collection(db, "users"),
-        where("email", "==", userInfo.email)
-      );
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setValue("user", {
-          id: doc.id,
-          ...doc.data(),
-        });
-      });
-    }
-    fetchUserData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userInfo.email]);
-  const addPosthandler = async (values) => {
-    console.log(values);
-    const cloneValues = { ...values };
-    cloneValues.slug = slugify(values.slug || values.title, "_");
-    cloneValues.status = Number(values.status);
-    const colRef = collection(db, "posts");
-    await addDoc(colRef, {
-      ...cloneValues,
-      image,
-      createdAt: serverTimestamp(),
-    });
-    toast.success("create new post successfully");
-    reset({
-      title: "",
-      slug: "",
-      status: 2,
-      hot: false,
-      image: "",
-      categoryId: {},
-      user: {},
-    });
-    setImage("");
-    SelectCategory();
-  };
-  useEffect(() => {
-    document.title = "chicken blogging-add new post";
+  async function addPosthandler() { }
+ async function deletePostImage() {
+  const colRef = doc(db, "users", postId);
+  await updateDoc(colRef, {
+    avatar: "",
   });
-  const { image, setImage, handleDeleteIamge, UploadFile, progress } =
-    useFirebaseImage(getValues, setValue);
-  useEffect(() => {
-    async function getData() {
-      const colRef = collection(db, "categories");
-      const q = query(colRef, where("status", "==", 1));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
-        const results = [];
-        results.push({
-          id: doc.id,
-          ...doc.data(),
-        });
-        setCategories(results);
-      });
-    }
-    getData();
-  }, []);
+  }
   const handleClickOption = async (item) => {
     const colRef = doc(db, "categories", item.id);
     const docData = await getDoc(colRef);
@@ -222,7 +151,7 @@ const AddPost = () => {
                   Image
                 </label>
                 <ImageUpload
-                  handleDeleteIamge={handleDeleteIamge}
+                  handleDeleteIamge={handleDeleteImage}
                   onChange={UploadFile}
                   className="h-[400px]"
                   progress={progress}
@@ -242,4 +171,5 @@ const AddPost = () => {
     </div>
   );
 };
-export default AddPost;
+
+export default UpdatePost;

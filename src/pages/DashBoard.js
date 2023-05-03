@@ -6,7 +6,7 @@ const DashBoard = () => {
   return (
     <div>
       <HeaderDashboard></HeaderDashboard>
-      <div className="flex gap-x-10">
+      <div className="flex gap-x-10 w-full">
         <SideBar></SideBar>
         <div className="w-full">
           <h2 className="text-4xl font-bold text-primary mt-10  ">

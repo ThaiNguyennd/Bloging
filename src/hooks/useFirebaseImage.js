@@ -7,7 +7,7 @@ import {
 } from "firebase/storage";
 import { useState } from "react";
 
-export default function useFirebaseImage(getValues, setValue) {
+export default function useFirebaseImage(getValues, setValue,imageName =null ,cb) {
   const [progress, setprogress] = useState(0);
   const [image, setImage] = useState();
   const handleUploadImage = (file) => {
@@ -52,15 +52,16 @@ export default function useFirebaseImage(getValues, setValue) {
   };
   const handleDeleteIamge = () => {
     const storage = getStorage();
-    const desertRef = ref(storage, "images/" + getValues("image_name"));
+    const desertRef = ref(storage, "images/" +imageName|| getValues("image_name"));
     deleteObject(desertRef)
       .then(() => {
         setImage("");
         setprogress(0);
+        cb && cb();
       })
       .catch((error) => {
         console.log("erros");
       });
   };
-  return { image, handleDeleteIamge, UploadFile, progress,setImage };
+  return { image,setImage, handleDeleteIamge, UploadFile, progress,setImage };
 }

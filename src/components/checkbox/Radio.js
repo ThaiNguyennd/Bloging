@@ -24,8 +24,8 @@ const Radio = ({ checked, children, control, name, ...rest }) => {
         <div
           className={`w-5 h-7 rounded-full border flex items-center justify-center p-3  ${
             checked
-              ? "bg-primary border-primary text-white"
-              : "border-gray-300 text-transparent"
+              ? "bg-primary "
+              : "border-black text-transparent"
           }`}
         >
         </div>

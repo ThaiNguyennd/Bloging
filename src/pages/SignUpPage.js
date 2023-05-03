@@ -14,6 +14,7 @@ import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import Logo from "./Logo";
 import slugify from "slugify";
 import { roleStatus, usserStatus } from "../components/untils/Constant";
+import Button from "../components/button/Button";
 const SignUpPage = () => {
   const schema = yup
     .object()
@@ -45,14 +46,15 @@ const SignUpPage = () => {
     await createUserWithEmailAndPassword(auth, values.email, values.password);
     await updateProfile(auth.currentUser, {
       displayName: values.fullName,
-      photoURL: "/user.png",
+      photoURL:
+        "https://e7.pngegg.com/pngimages/178/595/png-clipart-user-profile-computer-icons-login-user-avatars-monochrome-black-thumbnail.png",
     });
     await setDoc(doc(db, "users", auth.currentUser.uid), {
       fullName: values.fullName,
       email: values.email,
       password: values.password,
       userName: slugify(values.fullName, { lower: true }),
-      avatar: "/user.png",
+      avatar: "https://e7.pngegg.com/pngimages/178/595/png-clipart-user-profile-computer-icons-login-user-avatars-monochrome-black-thumbnail.png",
       status: usserStatus.ACTIVE,
       role: roleStatus.USER,
       createAt: serverTimestamp(),
@@ -127,7 +129,7 @@ const SignUpPage = () => {
             Login
           </NavLink>
         </div>
-        <button
+        <Button
           type="submit"
           className={`px-9  py-3 text-center bg-primary mt-8 rounded-xl mx-auto font-semibold ${
             isSubmitting ? "opacity-50 pointer-events-none w-[200px]" : ""
@@ -139,7 +141,7 @@ const SignUpPage = () => {
           ) : (
             "Sign Up"
           )}
-        </button>
+        </Button>
       </form>
     </div>
   );

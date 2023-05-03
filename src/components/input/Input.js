@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { useController } from "react-hook-form";
 
-const Input = ({ name = "", type = "text", children ,className ="bg-gray-200 w-full p-4 rounded-lg border outline-none focus:border-blue-500 focus:bg-slate-100 transition-all mt-3", control, ...props }) => {
+const Input = ({ name = "",placeholder="", type = "text", children ,className ="bg-gray-200 w-full p-4 rounded-lg border outline-none focus:border-blue-500 focus:bg-slate-100 transition-all mt-3", control, ...props }) => {
   const { field } = useController({
     control,
     name,
@@ -10,6 +10,7 @@ const Input = ({ name = "", type = "text", children ,className ="bg-gray-200 w-f
   return (
     <Fragment>
       <input
+        placeholder={placeholder}
         type={type}
         id={name}
         className={className}

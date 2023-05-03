@@ -9,7 +9,7 @@ const PostMeta = ({
   return (
     <div>
       <div
-        className={`${className} font-semibold leading-7 text-3xl mr-3 mt-5 mb-[10px] flex items-center  text-white`}
+        className={`${className} font-semibold leading-7 text-3xl mr-3 mt-5 mb-[10px] flex items-center  text-black`}
       >
         <span className="text-sm">{date}</span>
         <svg

@@ -134,7 +134,7 @@ const SideBar = () => {
     },
   ];
   return (
-    <div className="flex items-center flex-col gap-20   bg-gray-300 rounded-lg w-[25%] h-[75%] shadow-lg mt-5">
+    <div className="flex items-center flex-col gap-20 bg-gray-300 rounded-lg w-[25%] h-[75%] shadow-lg mt-5">
       {sidebarLinks.map((link) => {
         if (link.onClick) {
           return (
@@ -151,12 +151,18 @@ const SideBar = () => {
         return (
           <NavLink
             to={link.url}
-            className={`flex text-2xl gap-5 cursor-pointer mt-5 w-full ml-20 font-semibold  
-              ${({ isActive }) => (isActive ? "bg-primary" : "")}`}
+            // flex text-2xl gap-5 cursor-pointer mt-5 w-full ml-20 font-semibold
+            className={({ isActive }) =>
+              isActive
+                ? " bg-primary text-green-500  text-2xl  cursor-pointer pt-5  w-full py-3  rounded-lg font-semibold rouned-md "
+                : "flex text-2xl gap-5 cursor-pointer pt-5 w-full py-3 font-semibold"
+            }
             key={link.title}
           >
-            <span className="menu-icon mr-5 items-start">{link.icon}</span>
-            <span className="menu-text">{link.title}</span>
+            <div className="flex ml-10">
+              <span className="menu-icon mr-5">{link.icon}</span>
+              <span className="menu-text ">{link.title}</span>
+            </div>
           </NavLink>
         );
       })}

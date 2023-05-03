@@ -5,7 +5,7 @@ const Logo = () => {
     <div className="w-full h-full text-center items-center mb-16 ">
       <div className="max-w-[160px] h-[120px] mx-auto">
         <img
-          srcSet="/logo.png 2x"
+          src="/logo.png"
           alt="chicken-blogging"
           className=" w-full h-full "
         />
